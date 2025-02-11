@@ -21,7 +21,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             WishListAppTheme {
                 Surface {
-                    HomeView()
+                    Navigation()
                 }
             }
         }

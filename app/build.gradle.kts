@@ -54,9 +54,8 @@ dependencies {
         // Kapt (Kotlin Annotation Processing Tool)
         kapt("androidx.room:room-compiler:$roomVersion") // Use ksp instead of kapt
 
-
         // Navigation Compose
-        implementation(libs.androidx.navigation.compose)
+        implementation("androidx.navigation:navigation-compose:2.7.5")
 
         // Compose UI
         implementation(libs.ui)
