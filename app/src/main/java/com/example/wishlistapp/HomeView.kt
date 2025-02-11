@@ -3,6 +3,7 @@ package com.example.wishlistapp
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -23,7 +24,6 @@ import com.example.wishlistapp.data.Wish
 
 @Composable
 fun HomeView() {
-
     Scaffold(
         topBar = { AppBarView(title = "WishList ", onBackNavClicked = {}) },
         floatingActionButton = {
@@ -56,7 +56,9 @@ fun WishItem(wish: Wish, onClick: () -> Unit) {
             .padding(top = 8.dp, start = 8.dp, end = 8.dp)
             .clickable { onClick() }, elevation = 10.dp, backgroundColor = Color.White
     ) {
-        Column(modifier = Modifier.padding(bottom = 16.dp)) {
+        Column(modifier = Modifier
+            .padding(8.dp)
+            .fillMaxWidth()) {
             Text(wish.title, fontWeight = FontWeight.ExtraBold)
             Text(wish.description)
         }
