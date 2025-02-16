@@ -31,10 +31,7 @@ fun AddEditDetail(
     Scaffold(topBar = {
         AppBarView(
             title = if (id != 0L) stringResource(R.string.update_wish)
-            else stringResource(R.string.add_wish),
-            onBackNavClicked = {
-                navController.navigateUp()
-            }
+            else stringResource(R.string.add_wish)
         )
     }) {
         Column(
@@ -62,9 +59,9 @@ fun AddEditDetail(
             Spacer(modifier = Modifier.height(8.dp))
 
             Button(onClick = {
-                if (viewModel.wishTitleState.isNotEmpty() && viewModel.wishDescriptionState.isNotEmpty()) {
+                if (viewModel.wishTitleState.isNotEmpty() && viewModel.wishDescriptionState.isNotEmpty()){
                     //TODO Update Wish
-                } else {
+                }else{
                     //TODO Add Wish
                 }
             }) {
