@@ -1,8 +1,17 @@
 package com.example.wishlistapp.data
 
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+//create Wish Table via Room DB
+@Entity(tableName = "wish_table")
 data class Wish(
+    @PrimaryKey(autoGenerate = true)
     val id: Long = 0L,
+    @ColumnInfo("wish_title")
     val title: String = "",
+    @ColumnInfo("wish_desc")
     val description: String = ""
 )
 
