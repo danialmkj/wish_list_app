@@ -11,7 +11,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
-class WishViewModel(private val wishRepository: WishRepository) : ViewModel() {
+class WishViewModel(private val wishRepository: WishRepository = Graph.wishRepository) :
+    ViewModel() {
 
     //we want to keep data, get data and load our data here
     var wishTitleState by mutableStateOf("")
