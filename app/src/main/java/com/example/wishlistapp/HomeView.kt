@@ -1,6 +1,9 @@
 package com.example.wishlistapp
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,6 +18,7 @@ import androidx.compose.material.FractionalThreshold
 import androidx.compose.material.SwipeToDismiss
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.rememberDismissState
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -22,6 +26,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -57,7 +63,7 @@ fun HomeView(
                 .padding(it)
         ) {
             //we use key which going to use wish id
-            items(wishList.value , key = {wish -> wish.id}) { item: Wish ->
+            items(wishList.value, key = { wish -> wish.id }) { item: Wish ->
 
                 val dismissState = rememberDismissState(confirmStateChange = { dismissValue ->
                     if (dismissValue == DismissValue.DismissedToEnd || dismissValue == DismissValue.DismissedToStart) {
@@ -68,10 +74,31 @@ fun HomeView(
 
                 SwipeToDismiss(
                     state = dismissState,
-                    background = {},
+                    background = {
+                        //Add ui for dismiss
+                        val color by animateColorAsState(
+                            if (dismissState.dismissDirection == DismissDirection.EndToStart) Color.Red else Color.Transparent,
+                            label = ""
+                        )
+
+                        val alignment = Alignment.CenterEnd
+
+                        Box(
+                            modifier = Modifier
+                                .padding(horizontal = 20.dp)
+                                .fillMaxSize()
+                                .background(color = color),
+                            contentAlignment = alignment
+                        ) {
+                            Icon(
+                                Icons.Default.Delete,
+                                contentDescription = "Delete Icon",
+                                tint = Color.White
+                            )
+                        }
+                    },
                     directions = setOf(
                         DismissDirection.EndToStart,
-                        DismissDirection.StartToEnd
                     ),
                     dismissThresholds = { FractionalThreshold(fraction = 0.25f) },
                     //which Item we want to dismiss it
