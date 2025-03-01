@@ -45,7 +45,7 @@ fun AddEditDetail(
     //we need to scaffold state to know the changes in the scaffold ui
     val scaffoldState = rememberScaffoldState()
 
-    //refresh the wish item base on id
+    //refresh the wish item in editing base on id
     if (id != 0L) {
         val wish = viewModel.getWishById(id).collectAsState(initial = Wish(0L, "", ""))
         viewModel.wishTitleState = wish.value.title

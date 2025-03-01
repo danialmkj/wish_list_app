@@ -93,6 +93,13 @@ fun AddEditDetail(
                     //If we have an id that means we are updating
                     if (id != 0L) {
                         //TODO Update Wish
+                        viewModel.updateWish(
+                            Wish(
+                                id = id,
+                                title = viewModel.wishTitleState.trim(),
+                                description = viewModel.wishDescriptionState.trim()
+                            )
+                        )
 
                     } else {
                         //TODO Add Wish
