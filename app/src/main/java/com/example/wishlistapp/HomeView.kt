@@ -37,8 +37,8 @@ fun HomeView(
                 contentColor = Color.White,
                 containerColor = Color.Black,
                 onClick = {
-                    //TODO Add Navigation to Add Screen
-                    navController.navigate(Screen.AddScreen.routeName)
+                    //TODO Add Navigation to Add Screen and we add id=0L to app wont crash
+                    navController.navigate(Screen.AddScreen.routeName + "/0L")
                 },
             ) { Icon(imageVector = Icons.Default.Add, contentDescription = null) }
         }) {
@@ -50,7 +50,11 @@ fun HomeView(
                 .padding(it)
         ) {
             items(wishList.value) { item: Wish ->
-                WishItem(wish = item, onClick = {})
+                WishItem(wish = item, onClick = {
+                    //TODO fetch wish item base on id
+                    val id = item.id
+                    navController.navigate(Screen.AddScreen.routeName + "/$id")
+                })
             }
         }
     }
@@ -64,9 +68,11 @@ fun WishItem(wish: Wish, onClick: () -> Unit) {
             .padding(top = 8.dp, start = 8.dp, end = 8.dp)
             .clickable { onClick() }, elevation = 10.dp, backgroundColor = Color.White
     ) {
-        Column(modifier = Modifier
-            .padding(8.dp)
-            .fillMaxWidth()) {
+        Column(
+            modifier = Modifier
+                .padding(8.dp)
+                .fillMaxWidth()
+        ) {
             Text(wish.title, fontWeight = FontWeight.ExtraBold)
             Text(wish.description)
         }
