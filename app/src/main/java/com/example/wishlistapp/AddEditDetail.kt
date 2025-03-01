@@ -9,12 +9,16 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.OutlinedTextField
+import androidx.compose.material.Scaffold
 import androidx.compose.material.TextFieldDefaults
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextFieldDefaults
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -23,20 +27,32 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.wishlistapp.data.Wish
+import kotlinx.coroutines.launch
 
 @Composable
 fun AddEditDetail(
     id: Long, viewModel: WishViewModel, navController: NavController
 ) {
-    Scaffold(topBar = {
-        AppBarView(
-            title = if (id != 0L) stringResource(R.string.update_wish)
-            else stringResource(R.string.add_wish),
-            onBackNavClicked = {
+
+    // displaying snackBar MSG
+    val snackMessage = remember { mutableStateOf("") }
+
+    // to using asynchronous function we need scope coroutine
+    val scope = rememberCoroutineScope()
+
+    //we need to scaffold state to know the changes in the scaffold ui
+    val scaffoldState = rememberScaffoldState()
+
+    Scaffold(
+        topBar = {
+            AppBarView(title = if (id != 0L) stringResource(R.string.update_wish)
+            else stringResource(R.string.add_wish), onBackNavClicked = {
                 navController.navigateUp()
-            }
-        )
-    }) {
+            })
+        },  //add scaffold state to our scaffold structure
+        scaffoldState = scaffoldState,
+    ) {
         Column(
             modifier = Modifier
                 .padding(it)
@@ -63,9 +79,31 @@ fun AddEditDetail(
 
             Button(onClick = {
                 if (viewModel.wishTitleState.isNotEmpty() && viewModel.wishDescriptionState.isNotEmpty()) {
-                    //TODO Update Wish
+                    //If we have an id that means we are updating
+                    if (id != 0L) {
+                        //TODO Update Wish
+
+                    } else {
+                        //TODO Add Wish
+                        viewModel.addWish(
+                            Wish(
+                                title = viewModel.wishTitleState.trim(),
+                                description = viewModel.wishDescriptionState.trim()
+                            )
+                        )
+
+                        //TODO Show SnackBar
+                        snackMessage.value = "wish has been created successfully"
+                    }
+
                 } else {
-                    //TODO Add Wish
+                    //TODO: Enter fields for wish to be created
+                    snackMessage.value = "Enter fields to create a wish"
+                }
+                //ToDO add something after add
+                scope.launch {
+                    scaffoldState.snackbarHostState.showSnackbar(snackMessage.value)
+                    navController.navigateUp()
                 }
             }) {
                 Text(text = if (id != 0L) stringResource(R.string.update_wish) else stringResource(R.string.add_wish))
